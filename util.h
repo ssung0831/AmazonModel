@@ -4,6 +4,7 @@
 #include <string>
 #include <iostream>
 #include <set>
+#include <ctype.h>
 
 
 /** Complete the setIntersection and setUnion functions below
@@ -13,19 +14,33 @@
 template <typename T>
 std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
 {
-
-
-
-
-
+	std::set<T> intersection;
+	for(typename std::set<T>::iterator i = s1.begin(); i != s1.end(); ++i){
+		//if you do find the s1 element in s2 and not in intersection already
+		if((s2.find(s1.get(i)) != s2.end()) && (intersection.find(s1.get(i)) == intersection.end())){
+			intersection.insert(*i);
+		}
+	}
+	return intersection;
 }
+
+
 template <typename T>
 std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
 {
+	std::set<T> u;
+	for(typename std::set<T>::iterator i = s2.begin(); i != s2.end(); ++i){
+		//put all of s2 into union
+		u.insert(*i);
+	}
 
-
-
-
+	for(typename std::set<T>::iterator i = s1.begin(); i != s1.end(); ++i){
+		//if the s1 element is not in s2
+		if((s2.find(s1.get(i)) == s2.end())){
+			u.insert(*i);
+		}
+	}
+	return u;
 
 }
 
@@ -47,3 +62,4 @@ std::string &rtrim(std::string &s) ;
 // Removes leading and trailing whitespace
 std::string &trim(std::string &s) ;
 #endif
+
