@@ -1,6 +1,5 @@
 #include <iostream>
 #include <sstream>
-#include <cctype>
 #include <algorithm>
 #include "util.h"
 
@@ -24,7 +23,7 @@ std::set<std::string> parseStringToWords(std::string rawWords)
     while(index < rawWords.length()){
         if(!isalpha(rawWords[index])){
           if(length >= 2){
-            parsed_words.insert(rawWords.substr(prev, length));
+            parsed_words.insert(convToLower(rawWords.substr(prev, length)));
 					}
 					prev = index + 1;
 					length = 0;
@@ -36,7 +35,7 @@ std::set<std::string> parseStringToWords(std::string rawWords)
     }
 
 		if(length >= 2){
-			parsed_words.insert(rawWords.substr(prev, rawWords.length() - 1));
+			parsed_words.insert(convToLower(rawWords.substr(prev, rawWords.length() - 1)));
 		}
 
     return parsed_words;
@@ -70,3 +69,11 @@ std::string &rtrim(std::string &s) {
 std::string &trim(std::string &s) {
     return ltrim(rtrim(s));
 }
+
+// int main(){
+// 	set<string> t = parseStringToWords("Hidden Figures");
+// 	for(set<string>::iterator it = t.begin(); it != t.end(); ++it){
+// 		cout << *it << endl;
+// 	}
+// 	cout << endl;
+// }

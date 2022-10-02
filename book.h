@@ -1,5 +1,7 @@
 #include "product.h"
 
+using namespace std;
+
 class Book: public Product{
 
   public:
@@ -22,7 +24,7 @@ class Book: public Product{
   void dump(std::ostream& os) const;
 
   private:
-  std::string author_;
   std::string isbn_;
+  std::string author_;
 
 };

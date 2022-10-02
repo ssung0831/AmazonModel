@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <algorithm>
 #include "product.h"
+#include "mydatastore.h"
 #include "db_parser.h"
 #include "product_parser.h"
 #include "util.h"
@@ -29,7 +30,7 @@ int main(int argc, char* argv[])
      * Declare your derived DataStore object here replacing
      *  DataStore type to your derived type
      ****************/
-    DataStore ds;
+    MyDataStore ds;
 
 
 
@@ -77,8 +78,14 @@ int main(int argc, char* argv[])
                     term = convToLower(term);
                     terms.push_back(term);
                 }
-                hits = ds.search(terms, 0);
-                displayProducts(hits);
+//                if no terms are entered
+                if(terms.size() == 0){
+                    cerr << "No terms" << endl;
+                }
+                else{
+                    hits = ds.search(terms, 0);
+                    displayProducts(hits);
+                }
             }
             else if ( cmd == "OR" ) {
                 string term;
@@ -87,8 +94,13 @@ int main(int argc, char* argv[])
                     term = convToLower(term);
                     terms.push_back(term);
                 }
-                hits = ds.search(terms, 1);
-                displayProducts(hits);
+                if(terms.size() == 0){
+                    cerr<< "No terms" << endl;
+                }
+                else{
+                    hits = ds.search(terms, 1);
+                    displayProducts(hits);
+                }
             }
             else if ( cmd == "QUIT") {
                 string filename;
@@ -100,10 +112,27 @@ int main(int argc, char* argv[])
                 done = true;
             }
 	    /* Add support for other commands here */
-
-
-
-
+						else if ( cmd == "ADD"){
+							string username;
+							size_t index;
+							if(ss >> username){
+								if(ss >> index){
+									ds.addToCart(convToLower(username), hits[index - 1]);
+								}
+							}
+						}
+						else if ( cmd == "VIEWCART"){
+							string username;
+							if(ss >> username){
+								ds.viewCart(convToLower(username));
+							}
+						}
+						else if ( cmd == "BUYCART"){
+							string username;
+							if(ss >> username){
+								ds.buyCart(convToLower(username));
+							}
+						}
             else {
                 cout << "Unknown command" << endl;
             }

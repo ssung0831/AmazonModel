@@ -1,13 +1,11 @@
 #include "movie.h"
-#include "util.cpp"
+#include "util.h"
 
 using namespace std;
 
-Movie::Movie(const std::string category, const std::string name, double price, int qty, std::string genre, std::string rating):
-	Product(category, name, price, qty)
+Movie::Movie(const std::string category, const std::string name, double price, int qty, const std::string genre, const std::string rating):
+	Product::Product(category, name, price, qty), genre_(genre), rating_(rating)
 {
-		genre_ = genre;
-		rating_ = rating;
 
 }
 
@@ -20,9 +18,9 @@ Movie::~Movie()
   * Returns the appropriate keywords that this product should be associated with
   */
   std::set<std::string> Movie::keywords() const{
-		std::set<std::string> keywords;
-		std::set<std::string> parsed_genre = parseStringToWords(genre_);
-		for(std::set<std::string>::iterator i = parsed_genre.begin(); i != parsed_genre.end(); ++i){
+		std::set<std::string> keywords = parseStringToWords(name_);
+		std::set<std::string> genreParsed = parseStringToWords(genre_);
+		for(std::set<std::string>::iterator i = genreParsed.begin(); i != genreParsed.end(); ++i){
 			keywords.insert(*i);
 		}
 		return keywords;
@@ -43,5 +41,5 @@ Movie::~Movie()
   * Outputs the product info in the database format
   */
   void Movie::dump(std::ostream& os) const{
-		cout << name_ << '\n' << "Genre: " << genre_ << " Rating: " << rating_ << '\n' << price_ << " " << qty_ << " left";
+		os << name_ << '\n' << "Genre: " << genre_ << " Rating: " << rating_ << '\n' << price_ << " " << qty_ << " left";
 	}

@@ -1,14 +1,12 @@
 #include "book.h"
-#include "util.cpp"
+#include "util.h"
 
 using namespace std;
 
 
 	Book::Book(const std::string category, const std::string name, double price, int qty, std::string isbn, std::string author):
-		Product(category, name, price, qty)
+		Product::Product(category, name, price, qty), isbn_(isbn), author_(author)
 	{
-		isbn_ = isbn;
-		author_ = author;
 
 	}
 
@@ -21,12 +19,11 @@ using namespace std;
   * Returns the appropriate keywords that this product should be associated with
   */
   std::set<std::string> Book::keywords() const{
-		std::set<std::string> keywords;
-		std::set<std::string> parsed_author = parseStringToWords(author_);
-		for(std::set<std::string>::iterator i = parsed_author.begin(); i != parsed_author.end(); ++i){
+		std::set<std::string> keywords = parseStringToWords(name_);
+		std::set<std::string> authorParsed = parseStringToWords(author_);
+		for(std::set<std::string>::iterator i = authorParsed.begin(); i != authorParsed.end(); ++i){
 			keywords.insert(*i);
 		}
-
 		keywords.insert(isbn_);
 		
 		return keywords;
@@ -47,5 +44,5 @@ using namespace std;
   * Outputs the product info in the database format
   */
   void Book::dump(std::ostream& os) const{
-		cout << name_ << '\n' << "Author: " << author_ << " ISBN: " << isbn_ << '\n' << price_ << " " << qty_ << " left";
+		os << name_ << '\n' << "Author: " << author_ << " ISBN: " << isbn_ << '\n' << price_ << " " << qty_ << " left";
 	}

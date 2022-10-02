@@ -1,9 +1,10 @@
 #include "product.h"
+using namespace std;
 
 class Movie: public Product{
 
   public:
-  Movie(const std::string category, const std::string name, double price, int qty, std::string genre, std::string rating);
+  Movie(const std::string category, const std::string name, double price, int qty, const std::string genre, const std::string rating);
   virtual ~Movie();
 
 	/**
@@ -22,7 +23,7 @@ class Movie: public Product{
   void dump(std::ostream& os) const;
 
   private:
-  std::string rating_;
   std::string genre_;
+  std::string rating_;
 
 };

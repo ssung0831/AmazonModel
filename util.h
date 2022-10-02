@@ -4,8 +4,6 @@
 #include <string>
 #include <iostream>
 #include <set>
-#include <ctype.h>
-
 
 /** Complete the setIntersection and setUnion functions below
  *  in this header file (since they are templates).
@@ -16,10 +14,10 @@ std::set<T> setIntersection(std::set<T>& s1, std::set<T>& s2)
 {
 	std::set<T> intersection;
 	for(typename std::set<T>::iterator i = s1.begin(); i != s1.end(); ++i){
-		//if you do find the s1 element in s2 and not in intersection already
-		if((s2.find(s1.get(i)) != s2.end()) && (intersection.find(s1.get(i)) == intersection.end())){
-			intersection.insert(*i);
-		}
+		typename std::set<T>::iterator j = s2.find(*i);
+			if(j != s2.end()){
+				intersection.insert(*i);
+			}
 	}
 	return intersection;
 }
@@ -34,14 +32,11 @@ std::set<T> setUnion(std::set<T>& s1, std::set<T>& s2)
 		u.insert(*i);
 	}
 
-	for(typename std::set<T>::iterator i = s1.begin(); i != s1.end(); ++i){
-		//if the s1 element is not in s2
-		if((s2.find(s1.get(i)) == s2.end())){
-			u.insert(*i);
-		}
+	for(typename std::set<T>::iterator j = s1.begin(); j != s1.end(); ++j){
+		u.insert(*j);
 	}
+	
 	return u;
-
 }
 
 /***********************************************/
@@ -62,4 +57,3 @@ std::string &rtrim(std::string &s) ;
 // Removes leading and trailing whitespace
 std::string &trim(std::string &s) ;
 #endif
-
