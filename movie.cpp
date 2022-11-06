@@ -18,11 +18,9 @@ Movie::~Movie()
   * Returns the appropriate keywords that this product should be associated with
   */
   std::set<std::string> Movie::keywords() const{
-		std::set<std::string> keywords = parseStringToWords(name_);
-		std::set<std::string> genreParsed = parseStringToWords(genre_);
-		for(std::set<std::string>::iterator i = genreParsed.begin(); i != genreParsed.end(); ++i){
-			keywords.insert(*i);
-		}
+		std::set<std::string> keywords = parseStringToWords(convToLower(name_));
+		keywords.insert(convToLower(genre_));
+
 		return keywords;
 	}
 
@@ -33,7 +31,9 @@ Movie::~Movie()
 	<price> <quantity> left.
   */
   std::string Movie::displayString() const{
-		std::string info = name_ + "\n" + "Genre: " + genre_ + " Rating: " + rating_ + "\n" + to_string(price_) + " " + to_string(qty_) + " left";
+				string ps = to_string(price_);
+				ps = ps.substr(0, to_string(price_).find(".") +3);
+		std::string info = name_ + "\n" + "Genre: " + genre_ + " Rating: " + rating_ + "\n" + ps + " " + to_string(qty_) + " left";
 		return info;
 	}
 
@@ -41,5 +41,7 @@ Movie::~Movie()
   * Outputs the product info in the database format
   */
   void Movie::dump(std::ostream& os) const{
-		os << name_ << '\n' << "Genre: " << genre_ << " Rating: " << rating_ << '\n' << price_ << " " << qty_ << " left";
+		string ps = to_string(price_);
+		ps = ps.substr(0, to_string(price_).find(".") +3);
+		os << category_ << endl << name_ << endl << ps << endl << to_string(qty_) << endl << genre_ << endl << rating_ << endl;
 	}

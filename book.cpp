@@ -19,12 +19,12 @@ using namespace std;
   * Returns the appropriate keywords that this product should be associated with
   */
   std::set<std::string> Book::keywords() const{
-		std::set<std::string> keywords = parseStringToWords(name_);
-		std::set<std::string> authorParsed = parseStringToWords(author_);
+		std::set<std::string> keywords = parseStringToWords(convToLower(name_));
+		std::set<std::string> authorParsed = parseStringToWords(convToLower(author_));
 		for(std::set<std::string>::iterator i = authorParsed.begin(); i != authorParsed.end(); ++i){
 			keywords.insert(*i);
 		}
-		keywords.insert(isbn_);
+		keywords.insert(convToLower(isbn_));
 		
 		return keywords;
 	}
@@ -36,7 +36,8 @@ using namespace std;
 	<price> <quantity> left.
   */
   std::string Book::displayString() const{
-		std::string info = name_ + "\n" + "Author: " + author_ + " ISBN: " + isbn_ + "\n" + to_string(price_) + " " + to_string(qty_) + " left";
+				string ps = to_string(price_).substr(0, to_string(price_).find(".") +3);
+		std::string info = name_ + "\n" + "Author: " + author_ + " ISBN: " + isbn_ + "\n" + ps + " " + to_string(qty_) + " left";
 		return info;
 	}
 
@@ -44,5 +45,6 @@ using namespace std;
   * Outputs the product info in the database format
   */
   void Book::dump(std::ostream& os) const{
-		os << name_ << '\n' << "Author: " << author_ << " ISBN: " << isbn_ << '\n' << price_ << " " << qty_ << " left";
+		string ps = to_string(price_).substr(0, to_string(price_).find(".") +3);
+		os << category_ << endl << name_ << endl << ps << endl << to_string(qty_) << endl << isbn_ << endl << author_ << endl;
 	}

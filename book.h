@@ -1,7 +1,5 @@
 #include "product.h"
 
-using namespace std;
-
 class Book: public Product{
 
   public:

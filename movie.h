@@ -1,5 +1,4 @@
 #include "product.h"
-using namespace std;
 
 class Movie: public Product{
 

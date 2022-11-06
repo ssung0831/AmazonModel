@@ -14,3 +14,5 @@ user.o
 util
 util.h.gch
 util.o
+hw2_tests.tar.gz
+hw2_tests/

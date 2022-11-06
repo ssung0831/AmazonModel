@@ -8,8 +8,6 @@
 #include <deque>
 #include <vector>
 
-using namespace std;
-
 class MyDataStore: public DataStore {
 public:
 
@@ -45,7 +43,7 @@ public:
 		private:
 		std::vector<Product*> products;
 		std::map<std::string, User*> users;
-		std::map<std::string, deque<Product*>> users_cart;
+		std::map<std::string, std::deque<Product*>> users_cart;
 		std::map<std::string, std::vector<Product*>> keyword_products;
 
 };

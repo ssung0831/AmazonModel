@@ -21,8 +21,8 @@ using namespace std;
   * Returns the appropriate keywords that this product should be associated with
   */
   std::set<std::string> Clothing::keywords() const{
-		std::set<std::string> keywords = parseStringToWords(name_);
-		std::set<std::string> brandParsed = parseStringToWords(brand_);
+		std::set<std::string> keywords = parseStringToWords(convToLower(name_));
+		std::set<std::string> brandParsed = parseStringToWords(convToLower(brand_));
 		for(std::set<std::string>::iterator i = brandParsed.begin(); i != brandParsed.end(); ++i){
 			keywords.insert(*i);
 		}
@@ -36,7 +36,8 @@ using namespace std;
 	<price> <quantity> left.
   */
   std::string Clothing::displayString() const{
-		std::string info = name_ + "\n" + "Size: " + size_ + " Brand: " + brand_ + "\n" + to_string(price_) + " " + to_string(qty_) + " left";
+				string ps = to_string(price_).substr(0, to_string(price_).find(".") +3);
+		std::string info = name_ + "\n" + "Size: " + size_ + " Brand: " + brand_ + "\n" + ps + " " + to_string(qty_) + " left";
 		return info;
 	}
 
@@ -44,5 +45,6 @@ using namespace std;
   * Outputs the product info in the database format
   */
   void Clothing::dump(std::ostream& os) const{
-		os << name_ << '\n' << "Size: " << size_ << " Brand: " << brand_ << '\n' << price_ << " " << qty_ << " left";
+		string ps = to_string(price_).substr(0, to_string(price_).find(".") +3);
+		os << category_ << endl << name_ << endl << ps << endl << to_string(qty_) << endl << size_ << endl << brand_ << endl;
 	}

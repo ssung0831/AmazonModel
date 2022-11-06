@@ -28,12 +28,13 @@ using namespace std;
 			for(set<string>::iterator i = keyWords.begin(); i != keyWords.end(); ++i){
 			
 				//keyword doesn't exist yet
-				map<string, vector<Product*>>::iterator j = keyword_products.find(*i);
+				map<string, vector<Product*>>::iterator j = keyword_products.find(convToLower(*i));
 				if(j == keyword_products.end()){
 					vector<Product*> prod;
 					prod.push_back(p);
-					keyword_products.insert(std::make_pair(convToLower(*i), prod));
-				}
+					keyword_products.insert(std::make_pair(convToLower(*i), prod));		
+	//	keyword_products.insert(std::make_pair(*i, prod));
+						}
 				else{
 					(j -> second).push_back(p);
 				}
@@ -62,7 +63,7 @@ using namespace std;
 			//iterate through each term
 			for(vector<string>::iterator i = terms.begin(); i != terms.end(); ++i){
 				std::set<Product*> temp;
-				map<string, vector<Product*>>::iterator j = keyword_products.find(*i);
+				map<string, vector<Product*>>::iterator j = keyword_products.find(convToLower(*i));
 				//each term has a list of products that match, we are going to put them together through intersections/unions
 				if(j != keyword_products.end()){
 					//put all the products in our sets
@@ -115,7 +116,7 @@ using namespace std;
 
 		void MyDataStore::addToCart(string username, Product* p){
 			bool userExists = false;
-			map<string, deque<Product*>>::iterator i = users_cart.find(username);
+			map<string, deque<Product*>>::iterator i = users_cart.find(convToLower(username));
 				//check if this is the user
 				if(i != users_cart.end()){
 					userExists = true;
@@ -123,18 +124,18 @@ using namespace std;
 				}
 
 			if(!userExists){
-				cout << "Invalid" << endl;
+				cout << "Invalid request" << endl;
 			}
 		}
 
 		void MyDataStore::viewCart(string username){
-			map<string, deque<Product*>>::iterator i = users_cart.find(username);
+			map<string, deque<Product*>>::iterator i = users_cart.find(convToLower(username));
 				//check if this is the user
 				if(i != users_cart.end()){
 					//iterate through cart and display
 					int index = 1;
 					for(deque<Product*>::iterator j = (i -> second).begin(); j != (i -> second).end(); ++j){
-						cout << index << ". " << (*j) -> displayString() << endl;
+						cout << "Item " << index << '\n' << (*j) -> displayString() << endl;
 						index++;
 						cout << '\n';
 		  		}
@@ -146,12 +147,12 @@ using namespace std;
 
 		void MyDataStore::buyCart(string username){
 			bool userExists = false;
-			map<string, deque<Product*>>::iterator i = users_cart.find(username);
+			map<string, deque<Product*>>::iterator i = users_cart.find(convToLower(username));
 				//check if this is the user
 				if(i != users_cart.end()){
 					userExists = true;
 					deque<Product*> myCart = i -> second;
-					map<string, User*>::iterator thisUser = users.find(username);
+					map<string, User*>::iterator thisUser = users.find(convToLower(username));
 
 					for(deque<Product*>::iterator j = myCart.begin(); j != myCart.end(); ++j){
 						//if product is in stock and user has enough money

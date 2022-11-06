@@ -16,26 +16,42 @@ std::set<std::string> parseStringToWords(std::string rawWords)
 {
     std::set<std::string> parsed_words;
     
-		unsigned int index = 0;
-    int length= 0;
-		int prev = 0;
+		// unsigned int index = 0;
+    // int length= 0;
+		// int prev = 0;
 
-    while(index < rawWords.length()){
-        if(!isalpha(rawWords[index])){
-          if(length >= 2){
-            parsed_words.insert(convToLower(rawWords.substr(prev, length)));
-					}
-					prev = index + 1;
-					length = 0;
-        }
-				else{
-					length++;
-				}
-        index++;
-    }
+    // while(index < rawWords.length()){
+    //     if(!isalpha(rawWords[index])){
+    //       if(length >= 2){
+    //         parsed_words.insert(convToLower(rawWords.substr(prev, length)));
+		// 			}
+		// 			prev = index + 1;
+		// 			length = 0;
+    //     }
+		// 		else{
+		// 			length++;
+		// 		}
+    //     index++;
+    // }
 
-		if(length >= 2){
-			parsed_words.insert(convToLower(rawWords.substr(prev, rawWords.length() - 1)));
+		// if(length >= 2){
+		// 	parsed_words.insert(convToLower(rawWords.substr(prev, rawWords.length() - 1)));
+		// }
+
+		//this is to ignore any punctuations that are in the string
+		for(unsigned int i = 0; i < rawWords.length(); i++){
+			if(ispunct(rawWords[i])){
+				rawWords[i] = ' ';
+			}
+		}
+
+		stringstream ss(rawWords);
+		string word;
+		//iterate through each word and only add words that are >= 2
+		while(ss >> word){
+			if(word.length() >= 2){
+				parsed_words.insert(word);
+			}
 		}
 
     return parsed_words;
